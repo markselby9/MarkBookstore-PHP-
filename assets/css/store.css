@@ -1,0 +1,36 @@
+html {
+  position: relative;
+}
+body {
+  background-color: #eeeeee;
+}
+.store-function-div {
+  margin-left: auto;
+  margin-right: 5px;
+  width: 100%;
+  overflow: auto;
+}
+.store-function-div .store-function-div-left {
+  float: left;
+  margin-left: 20px;
+}
+.store-function-div .store-function-div-right {
+  float: right;
+  margin-right: 20px;
+}
+.book_store_div {
+  margin-left: 10px;
+  margin-right: 10px;
+  clear: both;
+}
+.book_item_div {
+  border: 1px solid #333333;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #ffffff;
+  margin: 15px;
+}
+.book_item_div .book_item_detail_div .price {
+  color: #d9534f;
+  font-size: x-large;
+}
