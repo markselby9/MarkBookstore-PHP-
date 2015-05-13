@@ -22,7 +22,7 @@
                 <?php
                 if ($book_item->getStatus()==1){
                 ?>
-                    <a class="btn btn-disabled" href="#">borrowed</a>
+                    <a class="btn btn-disabled" href="#">borrowed by </a>
                 <?php }
                 else{?>
                     <a class="btn btn-info" href="<?php echo site_url("book/borrow/" . $book_item->getId());?>">borrow</a>

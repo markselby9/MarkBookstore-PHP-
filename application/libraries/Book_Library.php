@@ -49,6 +49,31 @@ class Book_Library
         return false;
     }
 
+    public function getBookOfUserId($user_id = 0)
+    {
+        $book_list = array();
+        if ($user_id > 0) {
+            $query = $this->_ci->db->get_where('user_book_relation', array("user_id" => $user_id, "behavior" => 1));
+            foreach ($query->result() as $row){
+                $book = $this->getBook($row->book_id);
+//                $book = $this->getBookFromData($book_row);
+                $book_list[] = $book;
+            }
+            return $book_list;
+        }
+        return false;
+    }
+
+    public function getRelationOfUserId($user_id=0){
+//        $relation_list = array();
+        if ($user_id > 0) {
+            $query = $this->_ci->db->get_where('user_book_relation', array("user_id" => $user_id, "behavior" => 1));
+
+            return $query->result();
+        }
+        return false;
+    }
+
     public function addBook()
     {
         $bookname = $this->_ci->input->post('bookname');
@@ -70,15 +95,26 @@ class Book_Library
 //        echo $db->affected_rows();
     }
 
-    public function checkBook($user_id, $book_id){
+    public function checkBook($user_id=0, $book_id){
         $db = $this->_ci->db;
-        $check_sql = "select * from user_book_relation where user_id=? and book_id=?";
-        $check_query = $db->query($check_sql, array($user_id, $book_id));
-        if ($check_query->num_rows() == 0){
-            return 0;
-        }else {
-            $row = $check_query->row();
-            return $row->behavior;
+        if ($user_id > 0){
+            $check_sql = "select * from user_book_relation where user_id=? and book_id=?";
+            $check_query = $db->query($check_sql, array($user_id, $book_id));
+            if ($check_query->num_rows() == 0){
+                return 0;
+            }else {
+                $row = $check_query->row();
+                return $row->behavior;
+            }
+        }else{
+            $check_sql = "select * from user_book_relation where book_id=?";
+            $check_query = $db->query($check_sql, array($book_id));
+            if ($check_query->num_rows() == 0){
+                return 0;
+            }else {
+                $row = $check_query->row();
+                return $row->behavior;
+            }
         }
     }
 
@@ -94,5 +130,12 @@ class Book_Library
         );
         $db->insert('user_book_relation', $data);
         return true;
+    }
+
+    public function returnBook($user_id, $book_id){
+        $db = $this->_ci->db;
+        if ($this->checkBook($user_id, $book_id)>0){
+            $db->delete('user_book_relation', array('book_id'=>$book_id, 'user_id'=>$user_id));
+        }
     }
 }
